@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Prático: Abertura de Tickets ETL Migração</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Guia Prático: Abertura de Tickets ETL Migração</h1>
+        <p class="subtitle">Suporte para o time de CEOps | CX </p>
+    </header>
+    
+    <main>
+        <section class="intro">
+            <h2>Introdução</h2>
+            <p>Este guia foi desenvolvido para auxiliar o time de CEOps Suporte no preenchimento correto dos formulários de tickets para ETL Migração. Siga as instruções abaixo para garantir que todas as informações necessárias sejam fornecidas corretamente, agilizando o processo de atendimento.</p>
+        </section>
+        
+        <section class="form-guide">
+            <div class="tab-container">
+                <div class="tab active" data-tab="visao-geral">Visão Geral</div>
+                <div class="tab" data-tab="campo-a-campo">Campo a Campo</div>
+                <div class="tab" data-tab="exemplos">Exemplos Práticos</div>
+                <div class="tab" data-tab="faq">Perguntas Frequentes</div>
+                <div class="bat" data-tab="fluxograma"><a href="flux.html" target="_blank" rel="noopener noreferrer">Fluxo ETL | CX</a></div>
+            </div>
+            
+            <div class="tab-content active" id="visao-geral">
+                <h2>O que é ETL Migração?</h2>
+                <p>ETL (Extract, Transform, Load) Migração refere-se ao processo de transferência de dados de um sistema para outro, envolvendo extração de dados do sistema de origem, transformação dos dados para o formato adequado e carregamento no sistema de destino.</p>
+                
+                <div class="tips">
+                    <strong>Por que precisamos de informações precisas?</strong>
+                    <p>Tickets completos e precisos permitem que nossa equipe de ETL Migração atenda às solicitações mais rapidamente, evitando atrasos e retrabalho.</p>
+                </div>
+                
+                <h3>Fluxo de Trabalho</h3>
+                <ol class="steps">
+                    <li>CEOps Suporte recebe a solicitação do cliente</li>
+                    <li>Preenche o formulário com todas as informações necessárias</li>
+                    <li>Time de ETL Migração recebe o ticket</li>
+                    <li>Análise e execução da migração</li>
+                    <li>Feedback e conclusão</li>
+                </ol>
+                
+                <div class="important">
+                    <strong>Atenção!</strong>
+                    <p>Campos marcados com asterisco (*) são obrigatórios e devem ser preenchidos com atenção especial.</p>
+                </div>
+                
+                <div class="button-container">
+                    <button class="btn btn-secondary">Voltar</button>
+                    <button class="btn btn-primary" id="btn-next-to-fields">Próximo: Preenchimento dos Campos</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="campo-a-campo">
+                <h2>Preenchimento do Formulário: Campo a Campo</h2>
+                
+                <div class="field">
+                    <h3>Origem ETL <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Selecione a origem dos dados que serão migrados. Este campo é crucial para que a equipe de ETL entenda de onde virão os dados.</p>
+                            
+                            <div class="tips">
+                                <strong>Como preencher:</strong>
+                                <p>Selecione uma das opções disponíveis no menu suspenso. Caso não saiba a origem, consulte o cliente antes de enviar o ticket.</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/Origem_ETL.png" alt="Campo Origem ETL">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>ID do sistema <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Informe o identificador único do sistema de origem. Este código é essencial para localizar corretamente os dados a serem migrados.</p>
+                            
+                            <div class="warning">
+                                <strong>Atenção:</strong>
+                                <p>O ID do sistema deve ser digitado exatamente como aparece no sistema de origem, respeitando letras maiúsculas, minúsculas e caracteres especiais.</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/id_do_sitema.png" alt="Campo ID do sistema">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Responsável pela abertura do ticket <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Insira seu nome completo para facilitar a comunicação interna. Você será o ponto de contato para qualquer dúvida relacionada a este ticket.</p>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/responsalve_ticket.png" alt="Campo Responsável">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>E-mail do responsável da clínica <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Informe o e-mail do cliente que solicitou a migração. Este é o e-mail que será usado para comunicações sobre o andamento do processo.</p>
+                            
+                            <div class="tips">
+                                <strong>Dica:</strong>
+                                <p>Confirme que o e-mail está correto antes de submeter o formulário. Um e-mail incorreto pode causar atrasos significativos.</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/email_clinica.png" alt="Campo E-mail do responsável">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Nome do responsável da clínica <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Digite o nome completo do responsável pela clínica que está solicitando a migração.</p>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/nome_cliente.png" alt="Campo Nome do responsável">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Telefone responsável da clínica <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Forneça o número de telefone do responsável, incluindo DDD.</p>
+                            
+                            <div class="tips">
+                                <strong>Formato recomendado:</strong>
+                                <p>XXXXXXXXXXX</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/responsasavel_tele.png" alt="Campo Telefone">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Como é o nome do atual software do cliente <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Selecione o software que o cliente utiliza atualmente e do qual os dados serão exportados.</p>
+                            
+                            <div class="important">
+                                <strong>Importante:</strong>
+                                <p>A correta identificação do software atual é crucial para determinar o método de extração de dados.</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/sistema_antigo.png" alt="Campo Nome do software">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Tipo de importação <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Selecione o tipo de importação que será realizada. Cada tipo tem requisitos e procedimentos específicos.</p>
+                            
+                            <div class="tips">
+                                <strong>Tipos comuns:</strong>
+                                <ul class="checkmark-list">
+                                    <li>Migração completa</li>
+                                    <li>Migração parcial</li>
+                                    <li>Atualização de dados</li>
+                                    <li>Consolidação de bases</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/type_importa.png" alt="Campo Tipo de importação">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Motivo da Importação (campo de observação para detalhar) <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Explique detalhadamente o motivo da solicitação de migração. Inclua todas as informações relevantes que possam ajudar a equipe de ETL.</p>
+                            
+                            <div class="example-box">
+                                <div class="example-title">Exemplo de preenchimento:</div>
+                                <p>"Cliente solicitou migração completa dos dados do sistema XYZ para nosso sistema. Eles necessitam que todos os dados de pacientes e histórico de consultas dos últimos 5 anos sejam migrados com urgência, pois irão descontinuar o uso do sistema atual em 15 dias."</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/motiv.png" alt="Campo Motivo da Importação">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Acesso liberado do cliente? <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Indique se o cliente já liberou acesso ao sistema de origem para extração dos dados.</p>
+                            
+                            <div class="important">
+                                <strong>Atenção:</strong>
+                                <p>Se o acesso não estiver liberado, o processo de migração não poderá ser iniciado. É essencial obter essa liberação antes de prosseguir.</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/acesso_ao_sistema.png" alt="Campo Acesso liberado">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Drive com os arquivos de importação <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Forneça o link para o Google Drive ou outro repositório onde estão armazenados os arquivos necessários para a migração.</p>
+                            
+                            <div class="tips">
+                                <strong>Dica:</strong>
+                                <p>Certifique-se de que o link tenha permissões de acesso corretas e que todos os arquivos necessários estejam incluídos.</p>
+                            </div>
+                        </div>
+                        <div class="field-image">
+                            <img src="img/drive.png" alt="Campo Drive com arquivos">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <h3>Quais dados vai importar: <span class="required">*</span></h3>
+                    <div class="description">
+                        <div class="description-text">
+                            <p>Selecione todos os tipos de dados que serão migrados. É possível selecionar múltiplas opções.</p>
+                            
+                            <div class="warning">
+                                <strong>Atenção:</strong>
+                                <p>Selecionar corretamente os tipos de dados é crucial para que a migração seja bem-sucedida. Caso não tenha certeza, consulte o cliente para confirmar.</p>
+                            </div>
+                            
+                            <p>Opções disponíveis:</p>
+                            <ul class="checkmark-list">
+                                <li>Dados cadastrais</li>
+                                <li>Ficha clínica</li>
+                                <li>Financeiro do paciente</li>
+                                <li>Agendamentos</li>
+                                <li>Orçamentos em aberto</li>
+                                <li>Cadastro de profissionais</li>
+                                <li>Arquivos</li>
+                            </ul>
+                        </div>
+                        <div class="field-image">
+                            <img src="./img/checkpoint.png" alt="Campo Quais dados importar">
+                        </div>
+                    </div>
+
+
+                </div>
+                
+                <div class="success">
+                    <strong>Concluindo o formulário:</strong>
+                    <p>Após preencher todos os campos obrigatórios, clique no botão "Enviar" para submeter o ticket para a equipe de ETL Migração.</p>
+                </div>
+                
+                <div class="button-container">
+                    <button class="btn btn-secondary" id="btn-back-to-overview">Voltar: Visão Geral</button>
+                    <button class="btn btn-primary" id="btn-next-to-examples">Próximo: Exemplos Práticos</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="exemplos">
+                <h2>Exemplos Práticos</h2>
+                
+                <div class="example-box">
+                    <div class="example-title">Exemplo 1: Migração completa de dados</div>
+                    <ul>
+                        <li><strong>Origem ETL:</strong> CEOps & CX</li>
+                        <li><strong>ID do sistema:</strong> XYZ-12345</li>
+                        <li><strong>Responsável pela abertura do ticket:</strong> João Silva</li>
+                        <li><strong>E-mail do responsável da clínica:</strong> dr.carlos@clinicaexemplo.com.br</li>
+                        <li><strong>Nome do responsável da clínica:</strong> Dr. Carlos Oliveira</li>
+                        <li><strong>Telefone responsável da clínica:</strong> (11) 98765-4321</li>
+                        <li><strong>Nome do atual software do cliente:</strong> OdontoSystem</li>
+                        <li><strong>Tipo de importação:</strong> Migração completa</li>
+                        <li><strong>Motivo da Importação:</strong> Cliente adquiriu nosso sistema e precisa migrar toda a base de dados do sistema atual. Necessita que a migração seja concluída em até 15 dias, pois o contrato com o sistema atual expira nesta data. Dados de aproximadamente 3.000 pacientes.</li>
+                        <li><strong>Acesso liberado do cliente?:</strong> Sim</li>
+                        <li><strong>Drive com os arquivos de importação:</strong> [Link do Google Drive]</li>
+                        <li><strong>Quais dados vai importar:</strong> Dados cadastrais, Ficha clínica, Financeiro do paciente, Agendamentos, Cadastro de profissionais</li>
+                    </ul>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">Exemplo 2: Migração parcial de dados</div>
+                    <ul>
+                        <li><strong>Origem ETL:</strong> Sistema ABC</li>
+                        <li><strong>ID do sistema:</strong> ABC-78910</li>
+                        <li><strong>Responsável pela abertura do ticket:</strong> Maria Santos</li>
+                        <li><strong>E-mail do responsável da clínica:</strong> dra.ana@clinicavida.com.br</li>
+                        <li><strong>Nome do responsável da clínica:</strong> Dra. Ana Pereira</li>
+                        <li><strong>Telefone responsável da clínica:</strong> (21) 97654-3210</li>
+                        <li><strong>Nome do atual software do cliente:</strong> DentalPro</li>
+                        <li><strong>Tipo de importação:</strong> Migração parcial</li>
+                        <li><strong>Motivo da Importação:</strong> Cliente está migrando apenas os dados cadastrais e financeiros. Os dados clínicos serão inseridos manualmente. Cliente solicita prioridade média, prazo de 30 dias é aceitável.</li>
+                        <li><strong>Acesso liberado do cliente?:</strong> Não</li>
+                        <li><strong>Drive com os arquivos de importação:</strong> [Link do Google Drive]</li>
+                        <li><strong>Quais dados vai importar:</strong> Dados cadastrais, Financeiro do paciente</li>
+                    </ul>
+                </div>
+                
+                <div class="important">
+                    <strong>Observações importantes sobre os exemplos:</strong>
+                    <ul>
+                        <li>Note como o campo "Motivo da Importação" é detalhado e fornece informações relevantes sobre o contexto da migração.</li>
+                        <li>Os exemplos mostram a seleção apropriada dos tipos de dados a serem migrados, de acordo com a necessidade do cliente.</li>
+                        <li>Quando o acesso não está liberado (Exemplo 2), é importante seguir com o cliente para garantir que isso seja resolvido antes do início da migração.</li>
+                    </ul>
+                </div>
+                
+                <div class="button-container">
+                    <button class="btn btn-secondary" id="btn-back-to-fields">Voltar: Campo a Campo</button>
+                    <button class="btn btn-primary" id="btn-next-to-faq">Próximo: Perguntas Frequentes</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="faq">
+                <h2>Perguntas Frequentes</h2>
+                
+                <div class="field">
+                    <h3>O que fazer quando não sei o nome do software atual do cliente?</h3>
+                    <p>Entre em contato com o cliente e peça essa informação antes de submeter o ticket. O nome correto do software é crucial para o processo de migração.</p>
+                </div>
+                
+                <div class="field">
+                    <h3>Por que preciso incluir o ID do sistema?</h3>
+                    <p>O ID do sistema é um identificador único que ajuda a equipe de ETL a localizar exatamente o sistema de origem. Sem essa informação, pode haver atrasos significativos no processo de migração.</p>
+                </div>
+                
+                <div class="field">
+                    <h3>O cliente não liberou acesso ao sistema. Posso enviar o ticket mesmo assim?</h3>
+                    <p>Sim, você pode enviar o ticket, mas é importante selecionar "Não" no campo "Acesso liberado do cliente?" Isso sinalizará para a equipe de ETL que ainda será necessário obter o acesso antes de iniciar a migração.</p>
+                </div>
+                
+                <div class="field">
+                    <h3>Qual a diferença entre migração completa e parcial?</h3>
+                    <p>Uma migração completa envolve transferir todos os dados do sistema de origem para o novo sistema. Uma migração parcial envolve apenas conjuntos específicos de dados, como apenas cadastros de pacientes ou apenas dados financeiros.</p>
+                </div>
+                
+                <div class="field">
+                    <h3>O cliente não tem todos os arquivos necessários. O que devo fazer?</h3>
+                    <p>Oriente o cliente sobre quais arquivos são necessários e como obtê-los. Somente após reunir todos os arquivos necessários, o ticket deve ser submetido.</p>
+                </div>
+                
+                <div class="field">
+                    <h3>Quanto tempo leva para concluir uma migração?</h3>
+                    <p>O tempo varia dependendo da complexidade e volume dos dados, bem como do tipo de migração. Em média, migrações completas podem levar de 1 a 3 semanas, enquanto migrações parciais podem ser mais rápidas.</p>
+                </div>
+                
+                <div class="field">
+                    <h3>O cliente mudou de ideia sobre quais dados migrar. Como proceder?</h3>
+                    <p>Se o ticket já foi enviado, entre em contato com a equipe de ETL diretamente para informar sobre as mudanças. Se o ticket ainda não foi enviado, atualize as informações antes de submetê-lo.</p>
+                </div>
+                
+                <div class="success">
+                    <strong>Precisa de mais ajuda?</strong>
+                    <p>Entre em contato com Rafael | ETL Migração pelo e-mail rafael.miguel@clinicorp.com ou pelo chat.</p>
+                </div>
+                
+                <div class="button-container">
+                    <button class="btn btn-secondary" id="btn-back-to-examples">Voltar: Exemplos Práticos</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Guia Prático: Abertura de Tickets ETL Migração | © 2025 - Time de ETL Migração</p>
+    </footer>
+
+
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Navegação por abas
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+  const btnNextToFields = document.getElementById('btn-next-to-fields');
+  const btnBackToOverview = document.getElementById('btn-back-to-overview');
+  const btnNextToExamples = document.getElementById('btn-next-to-examples');
+  const btnBackToFields = document.getElementById('btn-back-to-fields');
+  const btnNextToFaq = document.getElementById('btn-next-to-faq');
+  const btnBackToExamples = document.getElementById('btn-back-to-examples');
+  
+  // Função para mudar de aba
+  function changeTab(tabId) {
+      // Remover classe ativa de todas as abas e conteúdos
+      tabs.forEach(tab => tab.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      // Adicionar classe ativa à aba selecionada
+      const selectedTab = document.querySelector(`.tab[data-tab="${tabId}"]`);
+      if (selectedTab) selectedTab.classList.add('active');
+      
+      // Mostrar o conteúdo correspondente
+      const selectedContent = document.getElementById(tabId);
+      if (selectedContent) selectedContent.classList.add('active');
+  }
+  
+  // Adicionar evento de clique às abas
+  tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+          const tabId = this.getAttribute('data-tab');
+          changeTab(tabId);
+      });
+  });
+  
+  // Botões de navegação
+  if (btnNextToFields) {
+      btnNextToFields.addEventListener('click', function() {
+          changeTab('campo-a-campo');
+      });
+  }
+  
+  if (btnBackToOverview) {
+      btnBackToOverview.addEventListener('click', function() {
+          changeTab('visao-geral');
+      });
+  }
+  
+  if (btnNextToExamples) {
+      btnNextToExamples.addEventListener('click', function() {
+          changeTab('exemplos');
+      });
+  }
+  
+  if (btnBackToFields) {
+      btnBackToFields.addEventListener('click', function() {
+          changeTab('campo-a-campo');
+      });
+  }
+  
+  if (btnNextToFaq) {
+      btnNextToFaq.addEventListener('click', function() {
+          changeTab('faq');
+      });
+  }
+  
+  if (btnBackToExamples) {
+      btnBackToExamples.addEventListener('click', function() {
+          changeTab('exemplos');
+      });
+  }
+});
+
+    </script>
+
+    
+</body>
+</html>

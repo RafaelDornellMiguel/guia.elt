@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxograma Interativo</title>
+    <style>
+        :root {
+            --primary: #FF8C00;
+            --primary-light: #FFB74D;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --success: #4CAF50;
+            --danger: #F44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        .flowchart-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flowchart-node {
+            background-color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .flowchart-node:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .flowchart-node.completed {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        
+        .connector {
+            height: 20px;
+            width: 2px;
+            background-color: var(--primary);
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .connector::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--primary);
+        }
+        
+        .decision-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .decision-node {
+            width: 180px;
+            height: 60px;
+            background-color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .decision-paths {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        
+        .decision-path {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+        }
+        
+        .path-connector {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .path-connector .vertical {
+            height: 15px;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        
+        .path-connector .horizontal {
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-header {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .modal-body {
+            margin-bottom: 15px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .date-header {
+            background-color: #f8f8f8;
+            padding: 8px;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .decision-paths {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .decision-path {
+                width: 80%;
+                margin-bottom: 15px;
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="file"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Fluxograma de Atendimento</h1>
+    </div>
+
+    <div class="date-header">
+        Sexta, 10 de Janeiro de 2025
+    </div>
+
+    <!-- Flowchart -->
+    <div class="flowchart-container" id="flowchart">
+        <!-- Step 1 -->
+        <div class="flowchart-node" id="step1" data-step="1" onclick="showStepModal(1)">
+            <h3>1. Cliente entra em contato</h3>
+        </div>
+        
+        <div class="connector"></div>
+        
+        <!-- Step 2 -->
+        <div class="flowchart-node" id="step2" data-step="2" onclick="showStepModal(2)">
+            <h3>2. Abrir o ticket</h3>
+        </div>
+        
+        <div class="connector"></div>
+        
+        <!-- Step 3 -->
+        <div class="flowchart-node" id="step3" data-step="3" onclick="showStepModal(3)">
+            <h3>3. Enviar e-mail e WhatsApp</h3>
+        </div>
+        
+        <div class="connector"></div>
+        
+        <!-- Step 4 -->
+        <div class="flowchart-node" id="step4" data-step="4" onclick="showStepModal(4)">
+            <h3>4. Gerenciar pagamento</h3>
+        </div>
+        
+        <div class="connector"></div>
+        
+        <!-- Decision node -->
+        <div class="decision-container">
+            <div class="decision-node" id="decision">
+                <h3>Cliente pagou?</h3>
+            </div>
+            
+            <div class="decision-paths">
+                <div class="decision-path" id="path-yes">
+                    <div class="path-connector">
+                        <div class="vertical"></div>
+                        <div class="horizontal"></div>
+                        <div class="vertical"></div>
+                    </div>
+                    <div class="flowchart-node" id="step5a" data-step="5a" onclick="showStepModal('5a')">
+                        <h3>5A. Importar</h3>
+                    </div>
+                </div>
+                
+                <div class="decision-path" id="path-no">
+                    <div class="path-connector">
+                        <div class="vertical"></div>
+                        <div class="horizontal"></div>
+                        <div class="vertical"></div>
+                    </div>
+                    <div class="flowchart-node" id="step5b" data-step="5b" onclick="showStepModal('5b')">
+                        <h3>5B. Não importar</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentStep = 0;
+        let score = 0;
+        let completedSteps = 0;
+        let timer = 0;
+        let timerInterval;
+        let paymentDecision = null;
+        
+        // Start timer
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+        
+        function updateTimer() {
+            timer++;
+            const minutes = Math.floor(timer / 60).toString().padStart(2, '0');
+            const seconds = (timer % 60).toString().padStart(2, '0');
+            document.getElementById('timeValue').textContent = `${minutes}:${seconds}`;
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const totalSteps = 6; // Total main steps
+            const progressPercentage = Math.round((completedSteps / totalSteps) * 100);
+            
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `Progresso: ${progressPercentage}%`;
+            
+            document.getElementById('stepsValue').textContent = `${completedSteps}/${totalSteps}`;
+        }
+        
+        // Update score
+        function updateScore(points) {
+            score += points;
+            document.getElementById('scoreValue').textContent = score;
+        }
+        
+        // Show step modal
+        function showStepModal(step) {
+            const modal = document.getElementById('stepModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalSubmit = document.getElementById('modalSubmit');
+            
+            // Start timer on first interaction
+            if (currentStep === 0) {
+                startTimer();
+            }
+            
+            // Set modal content based on step
+            switch(step) {
+                case 1:
+                    modalTitle.textContent = 'Cliente entra em contato';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="clientName">Nome do Cliente</label>
+                            <input type="text" id="clientName" placeholder="Digite o nome do cliente">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactType">Tipo de Contato</label>
+                            <select id="contactType">
+                                <option value="">Selecione uma opção</option>
+                                <option value="phone">Telefone</option>
+                                <option value="email">E-mail</option>
+                                <option value="whatsapp">WhatsApp</option>
+                                <option value="inperson">Presencial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactDetails">Detalhes do Contato</label>
+                            <textarea id="contactDetails" placeholder="Detalhes do contato inicial do cliente..."></textarea>
+                        </div>
+                    `;
+                    
+                    modalSubmit.onclick = function() {
+                        const clientName = document.getElementById('clientName').value;
+                        const contactType = document.getElementById('contactType').value;
+                        const contactDetails = document.getElementById('contactDetails').value;
+                        
+                        if (clientName && contactType && contactDetails) {
+                            completeStep(1);
+                            closeModal();
+                            showRewardModal("Você registrou o contato do cliente com sucesso!", 10);
+                        } else {
+                            alert("Por favor, preencha todos os campos.");
+                        }
+                    };
+                    break;
+                
+                case 2:
+                    modalTitle.textContent = 'Abrir o ticket';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="ticketTitle">Título do Ticket</label>
+                            <input type="text" id="ticketTitle" placeholder="Digite um título para o ticket">
+                        </div>
+                        <div class="form-group">
+                            <label for="ticketCategory">Categoria</label>
+                            <select id="ticketCategory">
+                                <option value="">Selecione uma categoria</option>
+                                <option value="support">Suporte Técnico</option>
+                                <option value="sales">Vendas</option>
+                                <option value="billing">Cobrança</option>
+                                <option value="complaint">Reclamação</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ticketPriority">Prioridade</label>
+                            <select id="ticketPriority">
+                                <option value="">Selecione a prioridade</option>
+                                <option value="low">Baixa</option>
+                                <option value="medium">Média</option>
+                                <option value="high">Alta</option>
+                                <option value="critical">Crítica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ticketDescription">Descrição</label>
+                            <textarea id="ticketDescription" placeholder="Descrição detalhada do problema ou solicitação..."></textarea>
+                        </div>
+                    `;
+                    
+                    modalSubmit.onclick = function() {
+                        const ticketTitle = document.getElementById('ticketTitle').value;
+                        const ticketCategory = document.getElementById('ticketCategory').value;
+                        const ticketPriority = document.getElementById('ticketPriority').value;
+                        const ticketDescription = document.getElementById('ticketDescription').value;
+                        
+                        if (ticketTitle && ticketCategory && ticketPriority && ticketDescription) {
+                            completeStep(2);
+                            closeModal();
+                            showRewardModal("Ticket criado com sucesso no sistema!", 15);
+                        } else {
+                            alert("Por favor, preencha todos os campos.");
+                        }
+                    };
+                    break;
+                
+                case 3:
+                    modalTitle.textContent = 'Enviar e-mail e WhatsApp';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="emailSubject">Assunto do E-mail</label>
+                            <input type="text" id="emailSubject" placeholder="Digite o assunto do e-mail">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailBody">Corpo do E-mail</label>
+                            <textarea id="emailBody" placeholder="Digite o conteúdo do e-mail..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="whatsappMessage">Mensagem de WhatsApp</label>
+                            <textarea id="whatsappMessage" placeholder="Digite a mensagem para WhatsApp..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Opções de Comunicação</label>
+                            <div>
+                                <input type="checkbox" id="sendEmail" checked>
+                                <label for="sendEmail">Enviar E-mail</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="sendWhatsapp" checked>
+                                <label for="sendWhatsapp">Enviar WhatsApp</label>
+                            </div>
+                        </div>
+                    `;
+                    
+                    modalSubmit.onclick = function() {
+                        const emailSubject = document.getElementById('emailSubject').value;
+                        const emailBody = document.getElementById('emailBody').value;
+                        const whatsappMessage = document.getElementById('whatsappMessage').value;
+                        const sendEmail = document.getElementById('sendEmail').checked;
+                        const sendWhatsapp = document.getElementById('sendWhatsapp').checked;
+                        
+                        if ((sendEmail && emailSubject && emailBody) || (sendWhatsapp && whatsappMessage)) {
+                            completeStep(3);
+                            closeModal();
+                            showRewardModal("Comunicação enviada ao cliente!", 15);
+                        } else {
+                            alert("Por favor, preencha os campos necessários para o tipo de comunicação selecionado.");
+                        }
+                    };
+                    break;
+                
+                case 4:
+                    modalTitle.textContent = 'Gerenciar pagamento';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="paymentAmount">Valor a ser pago</label>
+                            <input type="text" id="paymentAmount" placeholder="Digite o valor (R$)">
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentMethod">Método de Pagamento</label>
+                            <select id="paymentMethod">
+                                <option value="">Selecione um método</option>
+                                <option value="credit">Cartão de Crédito</option>
+                                <option value="debit">Cartão de Débito</option>
+                                <option value="transfer">Transferência Bancária</option>
+                                <option value="pix">PIX</option>
+                                <option value="cash">Dinheiro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentStatus">Status do Pagamento</label>
+                            <select id="paymentStatus">
+                                <option value="">Selecione o status</option>
+                                <option value="paid">Pago</option>
+                                <option value="pending">Pendente</option>
+                                <option value="failed">Falha no Pagamento</option>
+                                <option value="refunded">Reembolsado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentDetails">Detalhes do Pagamento</label>
+                            <textarea id="paymentDetails" placeholder="Informações adicionais sobre o pagamento..."></textarea>
+                        </div>
+                    `;
+                    
+                    modalSubmit.onclick = function() {
+                        const paymentAmount = document.getElementById('paymentAmount').value;
+                        const paymentMethod = document.getElementById('paymentMethod').value;
+                        const paymentStatus = document.getElementById('paymentStatus').value;
+                        const paymentDetails = document.getElementById('paymentDetails').value;
+                        
+                        if (paymentAmount && paymentMethod && paymentStatus) {
+                            paymentDecision = paymentStatus === 'paid';
+                            completeStep(4);
+                            closeModal();
+                            showRewardModal("Pagamento registrado com sucesso!", 20);
+                            
+                            // Show decision path based on payment status
+                            if (paymentDecision) {
+                                document.getElementById('path-yes').style.display = 'flex';
+                                document.getElementById('path-no').style.display = 'none';
+                            } else {
+                                document.getElementById('path-yes').style.display = 'none';
+                                document.getElementById('path-no').style.display = 'flex';
+                            }
+                        } else {
+                            alert("Por favor, preencha todos os campos obrigatórios.");
+                        }
+                    };
+                    break;
+                
+                case '5a':
+                    modalTitle.textContent = 'Importar dados do cliente';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="importFile">Selecione o arquivo para importar</label>
+                            <input type="file" id="importFile">
+                        </div>
+                        <div class="form-group">
+                            <label for="importType">Tipo de Importação</label>
+                            <select id="importType">
+                                <option value="">Selecione o tipo</option>
+                                <option value="new">Novo Cliente</option>
+                                <option value="update">Atualização de Cadastro</option>
+                                <option value="delete">Excluir Cliente</option>
+                                <option value="merge">Mesclar Cliente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="importNotes">Observações</label>
+                            <textarea id="importNotes" placeholder="Observações sobre a importação..."></textarea>
+                        </div>
+                    `;
+                    
+                    modalSubmit.onclick = function() {
+                        const importFile = document.getElementById('importFile').value;
+                        const importType = document.getElementById('importType').value;
+                        
+                        if (importFile && importType) {
+                            completeStep('5a');
+                            closeModal();
+                            showRewardModal("Dados importados com sucesso!", 25);
+                            showCompletionModal();
+                        } else {
+                            alert("Por favor, selecione um arquivo e o tipo de importação.");
+                        }
+                    };
+                    break;
+                
+                case '5b':
+                    modalTitle.textContent = 'Não importar dados';
+                    modalBody.innerHTML = `
+                        <div class="form-group">
+                            <label for="reason">Motivo para não importar</label>
+                            <select id="reason">
+                                <option value="">Selecione o motivo</option>
+                                <option value="no-payment">Pagamento não realizado</option>
+                                <option value="client-canceled">Cliente cancelou</option>
+                                <option value="invalid-data">Dados inválidos</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Observações</label>
+                            <textarea id="notes" placeholder="Detalhes sobre a decisão de não importar..."></textarea>
+                        </div>
+                    `;
+                    
+                    modalSubmit.onclick = function() {
+                        const reason = document.getElementById('reason').value;
+                        
+                        if (reason) {
+                            completeStep('5b');
+                            closeModal();
+                            showRewardModal("Processo finalizado com sucesso!", 15);
+                            showCompletionModal();
+                        } else {
+                            alert("Por favor, selecione um motivo.");
+                        }
+                    };
+                    break;
+            }
+            
+            currentStep = step;
+            modal.style.display = 'flex';
+        }
+        
+        // Complete step
+        function completeStep(step) {
+            const stepElement = document.getElementById(`step${step}`);
+            stepElement.classList.add('completed');
+            completedSteps++;
+            updateProgress();
+        }
+        
+        // Show reward modal
+        function showRewardModal(message, points) {
+            const modal = document.getElementById('rewardModal');
+            const rewardMessage = document.getElementById('rewardMessage');
+            const rewardPoints = document.getElementById('rewardPoints');
+            
+            rewardMessage.textContent = message;
+            rewardPoints.textContent = `+${points} pontos`;
+            updateScore(points);
+            
+            modal.style.display = 'flex';
+            setTimeout(closeModal, 2000);
+        }
+        
+        // Show completion modal
+        function showCompletionModal() {
+            const modal = document.getElementById('completionModal');
+            const completionTime = document.getElementById('completionTime');
+            const completionScore = document.getElementById('completionScore');
+            
+            const minutes = Math.floor(timer / 60).toString().padStart(2, '0');
+            const seconds = (timer % 60).toString().padStart(2, '0');
+            
+            completionTime.textContent = `${minutes}:${seconds}`;
+            completionScore.textContent = score;
+            
+            modal.style.display = 'flex';
+        }
+        
+        // Close modal
+        function closeModal() {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+        
+        // Initialize the app
+        function init() {
+            // Hide decision paths initially
+            document.getElementById('path-yes').style.display = 'none';
+            document.getElementById('path-no').style.display = 'none';
+            
+            // Close modal when clicking outside content
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            });
+        }
+        
+        // Run initialization when page loads
+        window.onload = init;
+    </script>
+
+    <!-- Step Modal -->
+    <div class="modal" id="stepModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Step Title</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be inserted here dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="modalSubmit">Confirmar</button>
+                <button class="btn btn-danger" onclick="closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reward Modal -->
+    <div class="modal" id="rewardModal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="modal-body">
+                <p id="rewardMessage" style="font-size: 1.2rem; margin-bottom: 10px;"></p>
+                <p id="rewardPoints" style="font-size: 1.5rem; font-weight: bold; color: var(--success);"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="modal" id="completionModal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="modal-header">
+                <h2>Processo Concluído!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Parabéns! Você completou todo o fluxograma.</p>
+                <p>Tempo total: <span id="completionTime" style="font-weight: bold;"></span></p>
+                <p>Pontuação total: <span id="completionScore" style="font-weight: bold;"></span> pontos</p>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button class="btn" onclick="closeModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Panel -->
+    <div class="flowchart-container" style="margin-top: 20px;">
+        <h3 style="text-align: center; margin-bottom: 15px;">Estatísticas</h3>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+                <span>Tempo: </span>
+                <span id="timeValue">00:00</span>
+            </div>
+            <div>
+                <span>Passos: </span>
+                <span id="stepsValue">0/6</span>
+            </div>
+            <div>
+                <span>Pontuação: </span>
+                <span id="scoreValue">0</span>
+            </div>
+        </div>
+        <div style="background-color: #e0e0e0; border-radius: 4px; height: 10px; margin-bottom: 15px;">
+            <div id="progressBar" style="background-color: var(--success); height: 100%; width: 0%; border-radius: 4px;"></div>
+        </div>
+        <p id="progressText" style="text-align: center; font-size: 0.9rem; color: var(--dark-gray);">Progresso: 0%</p>
+    </div>
+</body>
+</html>
